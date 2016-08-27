@@ -1,2 +1,2 @@
-# lazy_me
-A R package that contains function to ease my working process
+# Simplify
+A R package that contains function to ease my working process with functionality that I often need.
