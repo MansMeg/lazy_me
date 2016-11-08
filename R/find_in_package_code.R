@@ -5,14 +5,13 @@
 #' @param pattern Same as in stringr::str_detect.
 #' 
 #' @return \code{data.frame} with file and line where the pattern is found.
-#' @export
-find_in_package_code <- function(pattern){
-  checkmate::assert_character(search)
+find_in_package <- function(pattern, sub_path){
+  checkmate::assert_character(pattern)
   files <- dir(getwd())
   rproj_file_idx <- which(stringr::str_detect(tolower(files), "\\.rproj$"))
   path <- parse_rproj(file_path = files[rproj_file_idx])$PackagePath
-  if(is.null(path)) path <- "R" else path <- file.path(path, "R")
-  file_names <- c(dir(path, full.names = TRUE), dir(path, full.names = TRUE))
+  if(is.null(path)) path <- sub_path else path <- file.path(path, sub_path)
+  file_names <- dir(path, full.names = TRUE)
   code_list <- list()
   for(f in seq_along(file_names)){
     code_lines <- readLines(file_names[f], warn = FALSE)
@@ -22,8 +21,32 @@ find_in_package_code <- function(pattern){
                  code = code_lines, stringsAsFactors = FALSE)
   }
   code_df <- do.call(rbind, code_list)
-  code_df[stringr::str_detect(code_df$code, pattern=pattern),]
+  res <- code_df[stringr::str_detect(code_df$code, pattern=pattern),]
+  rownames(res) <- NULL
+  res
 }
+
+
+
+#' Find specific code snippets in packages.
+#'
+#' @details Assumes that a .Rproj exists
+#' 
+#' @param pattern Same as in stringr::str_detect.
+#' 
+#' @return \code{data.frame} with file and line where the pattern is found.
+#' @export
+find_in_package_code <- function(pattern){
+  checkmate::assert_character(pattern)
+  find_in_package(pattern, "R")
+}
+#' @rdname find_in_package_code
+#' @export
+find_in_package_vignette <- function(pattern){
+  checkmate::assert_character(pattern)
+  find_in_package(pattern, "vignette")
+}
+
 
 
 #' Function to parse Rproj files to R lists
