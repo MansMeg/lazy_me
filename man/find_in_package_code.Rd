@@ -21,4 +21,3 @@ Find specific code snippets in packages.
 \details{
 Assumes that a .Rproj exists
 }
-

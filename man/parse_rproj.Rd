@@ -12,4 +12,3 @@ parse_rproj(file_path)
 \description{
 Function to parse Rproj files to R lists
 }
-
