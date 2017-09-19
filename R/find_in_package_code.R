@@ -107,6 +107,8 @@ find_nonascii_in_package <- function(sub_path = "R"){
 #' @param file_pattern Regexp identifying the right files. 
 #' 
 #' @return \code{data.frame} with file and line where the pattern is found.
+#' 
+#' @export
 find_in_path <- function(pattern, path = ".", file_pattern = "\\.[rR]$"){
   checkmate::assert_character(pattern)
   file_names <- dir(path, full.names = TRUE, recursive = TRUE)
@@ -124,5 +126,4 @@ find_in_path <- function(pattern, path = ".", file_pattern = "\\.[rR]$"){
   rownames(res) <- NULL
   res
 }
-
 

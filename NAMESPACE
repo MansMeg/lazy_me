@@ -2,4 +2,5 @@
 
 export(find_in_package_code)
 export(find_in_package_vignette)
+export(find_in_path)
 export(parse_rproj)
